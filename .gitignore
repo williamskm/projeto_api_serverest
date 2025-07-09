@@ -1,0 +1,26 @@
+# Ignorar arquivos e pastas temporárias do Python e do Robot Framework
+__pycache__/
+*.py[cod]
+*.log
+
+# Ambientes virtuais
+venv/
+Venv/
+.env/
+
+# Relatórios e saídas dos testes
+results/
+output.xml
+log.html
+report.html
+
+# Arquivos temporários salvos durante testes
+tempfiles/
+
+# IDEs
+.vscode/
+.idea/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
