@@ -3,29 +3,29 @@ Resource          ../Resources/api_session.resource
 Resource          ../Resources/produtos.resource
 Resource          ../Resources/usuario.resource
 
-Suite Setup       Criar Sessão e Cadastrar/Logar
-Suite Teardown    Encerrar Sessão e Deletar Usuario
+Suite Setup       Cadastrar e Logar
+Suite Teardown    Deletar Usuario
 
 
 *** Test Cases ***
 
-Cadastro Sem Nome Deve Retornar Erro 400
+Deve Retornar Erro 400 ao Cadastrar Produto Sem Nome e Validar Resposta
     Cadastrar Produto Sem Nome
 
-Cadastro Sem Preço Deve Retornar Erro 400
+Deve Retornar Erro 400 ao Cadastrar Produto Sem Preço e Validar Resposta
     Cadastrar Produto Sem Preço
 
-Cadastro Sem Quantidade Deve Retornar Erro 400
+Deve Retornar Erro 400 ao Cadastrar Produto Sem Quantidade e Validar Resposta
     Cadastrar Produto Sem Quantidade
 
-Buscar Produto Com ID Inexistente Deve Retornar Erro 400
+Deve Retornar Erro 400 ao Buscar Produto Com ID Inexistente e Validar Resposta
     Buscar Produto Com ID Inexistente
 
-Buscar Produto Com ID Malformado Deve Retornar Erro 400
+Deve Retornar Erro 400 ao Buscar Produto Com ID Malformado e Validar Resposta
     Buscar Produto Com ID Malformado
 
-Editar Produto Sem Dados Deve Retornar Erro 400
+Deve Retornar Erro 400 ao Editar Produto Sem Dados e Validar Resposta
     Editar Produto Sem Dados
 
-Deletar Produto Inexistente Deve Retornar Erro 200
+Deve Retornar Erro 200 ao Deletar Produto Inexistente e Validar Resposta
     Deletar Produto Inexistente

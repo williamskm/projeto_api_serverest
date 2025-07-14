@@ -3,24 +3,24 @@ Resource          ../Resources/api_session.resource
 Resource          ../Resources/produtos.resource
 Resource          ../Resources/usuario.resource
 
-Suite Setup       Criar Sessão e Cadastrar/Logar
-Suite Teardown    Encerrar Sessão e Deletar Usuario
+Suite Setup       Cadastrar e Logar
+Suite Teardown    Deletar Usuario
 
 
 *** Test Cases ***
 
-Cadastrar Produto Com Dados Válidos
+Deve Cadastrar Produto Com Dados Válidos, Validar Resposta e Guardar ID Produto
     Cadastrar Produto
 
-Buscar Produto Por ID Válido
+Deve Buscar Produto Por ID Válido, Validar Resposta e Guardar Informações do Produto
     Buscar Produto por ID
 
-Editar Produto Com Dados Válidos
+Deve Editar Produto Com Dados Válidos e Validar Resposta
     Editar Produto
 
-Deletar Produto Existente
+Deve Deletar Produto Existente e Validar Resposta
     Deletar Produto
 
-Listar Produtos Existentes
+Deve Listar Produtos Existentes, Validar Resposta e Guardar Informações dos Produtos
     Listar Produtos
     

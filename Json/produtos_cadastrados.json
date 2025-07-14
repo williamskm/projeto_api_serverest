@@ -1,5 +1,5 @@
 {
-    "quantidade": 3,
+    "quantidade": 8,
     "produtos": [
         {
             "nome": "Logitech MX Vertical",
@@ -9,18 +9,54 @@
             "_id": "BeeJh5lz3k6kSIzA"
         },
         {
-            "nome": "Produto Teste 1752079707836",
-            "preco": 100,
-            "descricao": "Produto QA",
+            "nome": "Ergonomic Wooden Chicken",
+            "preco": 500,
+            "descricao": "Stylish Hat designed to make you stand out with impeccable looks",
             "quantidade": 10,
-            "_id": "FFw3pudkmFuHhZ5H"
+            "_id": "CUgoq0E7LnG98OoO"
+        },
+        {
+            "nome": "Handmade Concrete Bacon",
+            "preco": 500,
+            "descricao": "Boston's most advanced compression wear technology increases muscle oxygenation, stabilizes active muscles",
+            "quantidade": 0,
+            "_id": "F6Qlia9hTxZ98buu"
         },
         {
             "nome": "Samsung 60 polegadas",
             "preco": 5240,
             "descricao": "TV",
-            "quantidade": 49978,
+            "quantidade": 49977,
             "_id": "K6leHdftCeOJj8BJ"
+        },
+        {
+            "nome": "Myrtle",
+            "preco": 199,
+            "descricao": "Produto atualizado via PUT e ID gerado",
+            "quantidade": 1,
+            "_id": "amusLGTBS0GOxtvq"
+        },
+        {
+            "nome": "Licensed Steel Ball",
+            "preco": 500,
+            "descricao": "The beautiful range of Apple Natural\u00e9 that has an exciting mix of natural ingredients. With the Goodness of 100% Natural Ingredients",
+            "quantidade": 10,
+            "_id": "k2BRNACq5Ccjqo1l"
+        },
+        {
+            "nome": "Refined Metal Cheese",
+            "preco": 500,
+            "descricao": "Savor the salty essence in our Gloves, designed for shrill culinary adventures",
+            "quantidade": 0,
+            "_id": "uASo78rpDAzRZgIE"
+        },
+        {
+            "nome": "Gorgeous Soft Pizza",
+            "preco": 534,
+            "descricao": "The automobile layout consists of a front-engine design, with transaxle-type transmissions mounted at the rear of the engine and four wheel drive",
+            "quantidade": 1,
+            "imagem": "C:\\fakepath\\miamiGuardHouse.png",
+            "_id": "v42kqiAj0GBbjmX6"
         }
     ]
 }

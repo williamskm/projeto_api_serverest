@@ -1,65 +1,49 @@
 *** Settings ***
-Resource          ../Resources/produtos.resource
-Resource          ../Resources/usuario.resource
+Resource     ../Resources/variaveis.resource
+Resource     ../Resources/usuario.resource
+Resource     ../Resources/produtos.resource
 
-Library    RequestsLibrary
-Library    String
-Library    OperatingSystem
-Library    Collections
-
-*** Variables ***
-${nome}     WilliamTeste
-${email}    william@teste.com.br
-${senha}    teste123456
-${admin}    true
-
+Library      RequestsLibrary
+Library      String
+Library      OperatingSystem
+Library      Collections
 
 *** Keywords ***
 
-Criar Sessão
-    Create Session    alias=ServeRest    url=https://serverest.dev
+Configurar Header Padrão
+    Criar Header
 
-Encerrar Sessão
-    Delete All Sessions
-
-Criar Sessão e Cadastrar/Logar
-    Criar Sessão
+Cadastrar e Logar
+    Criar Header
     Cadastrar Usuário
     Logar Usuário
 
-Encerrar Sessão e Deletar Usuario
-    Deletar Usuário
-    Encerrar Sessão
-
-Encerrar Sessão e Deletar Usuario e Produto
-    Deletar Produto
-    Deletar Usuário
-    Encerrar Sessão
-
-Criar Sessão e Cadastrar/Logar/CadastrarProduto
-    Criar Sessão
+Cadastrar, Logar e Cadastrar Produto
+    Criar Header
     Cadastrar Usuário
     Logar Usuário
     Cadastrar Produto
 
-Limpar Pasta TempFiles
-    Remove Directory    ${EXECDIR}/tempfiles    recursive=True
-    Create Directory    ${EXECDIR}/tempfiles
+Deletar Usuario
+    Deletar Usuário Pelo ID em Arquivo
 
-Verifica se Usúario possui Carrinho e Deleta
-    ${TOKEN}    Buscar Info em Temp Files    token.txt
+Deletar Usuario e Produto
+    Deletar Produto
+    Deletar Usuário Pelo ID em Arquivo
 
-    ${header}=          Criar Header    ${TOKEN}
-    ${response_get}=    Criar Response Get    /carrinhos    200    ${header}
-    ${carrinho}=        Set Variable    ${response_get.json()}
+Criar Header
+    [Arguments]    ${token}=None
 
-    
-    ${verifica_carrinho}=    Get From Dictionary    ${carrinho}    quantidade
+    ${header}=    Create Dictionary    Content-Type=application/json
 
-    Run Keyword If    ${verifica_carrinho} > 0
-    ...               Cancelar Compra Com Carrinho
+    Run Keyword If    '${token}' != 'None'
+    ...    Set To Dictionary    ${header}    Authorization=${token}
 
-Buscar Info em Temp Files
+    Set Suite Variable   ${header}
+
+    RETURN    ${header}
+
+Pega INFO em TempFiles
     [Arguments]    ${nome_do_arquivo}
 
     ${valor}    Get File    path=${EXECDIR}/TempFiles/${nome_do_arquivo}
@@ -76,40 +60,31 @@ Criar Body
         ...     administrador=${administrador}
     RETURN    ${body}
 
-Criar Header
-    [Arguments]    ${token}=
-    ${header}=    Create Dictionary    Content-Type=application/json    Authorization=${token}
-
-    RETURN    ${header}
-
-Criar Response Post
+Criar Response POST
     [Arguments]    ${pagina}    ${expected_status}   ${header}    ${body}
 
-    ${response}=    POST On Session
-    ...             alias=ServeRest
-    ...             url=${pagina}
+    ${response}=    POST
+    ...             url=${BASE_URL}${pagina}
     ...             headers=${header}
     ...             json=${body}
     ...             expected_status=${expected_status}
     
     RETURN    ${response}
 
-Criar Response Get
+Criar Response GET
     [Arguments]    ${pagina}    ${expected_status}   ${header}
-    ${response}=    GET On Session
-    ...             alias=ServeRest
-    ...             url=${pagina}
+    ${response}=    GET
+    ...             url=${BASE_URL}${pagina}
     ...             headers=${header}
     ...             expected_status=${expected_status}
     
     RETURN    ${response}
     
-Criar Response Put
+Criar Response PUT
     [Arguments]    ${pagina}    ${expected_status}   ${header}    ${body}
     
-    ${response}=    PUT On Session
-    ...             alias=ServeRest
-    ...             url=${pagina}
+    ${response}=    PUT
+    ...             url=${BASE_URL}${pagina}
     ...             headers=${header}
     ...             json=${body}
     ...             expected_status=${expected_status}
@@ -119,10 +94,45 @@ Criar Response Put
 Criar Response DELETE
     [Arguments]    ${pagina}   ${expected_status}   ${header}
 
-    ${response}=    DELETE On Session
-    ...             alias=ServeRest
-    ...             url=${pagina}
+    ${response}=    DELETE
+    ...             url=${BASE_URL}${pagina}
     ...             headers=${header}
     ...             expected_status=${expected_status}
     
     RETURN    ${response}
+
+Validar Resposta Completa Através da Mensagem
+    [Arguments]    ${response}    ${codigo_esperado}    ${mensagem_esperada}
+
+    Should Be Equal As Integers    ${response.status_code}           ${codigo_esperado}
+    Should Be Equal As Strings     ${response.json()['message']}    ${mensagem_esperada}
+
+Validar Resposta Completa Através da Key
+    [Arguments]    ${response}    ${codigo_esperado}    ${key_esperada}
+
+    Should Be Equal As Integers    ${response.status_code}           ${codigo_esperado}
+    Dictionary Should Contain Key     ${response.json()}    ${key_esperada}
+
+Validar Resposta por Keys e Mensagens
+    [Arguments]    ${response}    ${codigo_esperado}    &{mensagens_esperadas}
+    #fazendo a verificaçãp
+    Should Be Equal As Integers    ${response.status_code}    ${codigo_esperado}
+    
+    
+    FOR    ${campo}    IN    @{mensagens_esperadas.keys()}
+        ${esperada}=    Get From Dictionary    ${mensagens_esperadas}    ${campo}
+        ${recebida}=    Get From Dictionary    ${response.json()}        ${campo}
+        Should Be Equal As Strings    ${recebida}    ${esperada}
+    END
+
+Verifica se Usúario possui Carrinho e Deleta
+    ${TOKEN}    Pega INFO em TempFiles    id_produto.txt
+    ${header}=          Criar Header    ${TOKEN}
+    ${response_get}=    Criar Response Get    /carrinhos    200    ${header}
+    ${carrinho}=        Set Variable    ${response_get.json()}
+
+    
+    ${verifica_carrinho}=    Get From Dictionary    ${carrinho}    quantidade
+
+    Run Keyword If    ${verifica_carrinho} > 0
+    ...               Cancelar Compra Com Carrinho        

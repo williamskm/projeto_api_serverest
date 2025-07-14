@@ -1,26 +1,25 @@
 *** Settings ***
-Resource    ../Resources/api_session.resource
-Resource    ../Resources/usuario.resource
+Resource       ../Resources/api_session.resource
+Resource       ../Resources/usuario.resource
 
-Suite Setup       Criar Sessão
-Suite Teardown    Encerrar Sessão
+Suite Setup    Configurar Header Padrão
 
 *** Test Cases ***
 
-Cadastrar Usuário Com Dados Válidos
+Deve Cadastrar Usuário Com Dados Válidos, Validar Resposta e Guardar ID Usuário
     Cadastrar Usuário
 
-Logar Usuário Com Dados Válido
+Deve Logar Usuário Com Dados Válidos, Validar Resposta e Guardar Token de Autorização
     Logar Usuário
 
-Buscar Usuário Por ID Válido
+Deve Buscar Usuário Por ID Válido, Validar Resposta e Guardar Informações do Usuário
     Buscar Usuário
 
-Editar Usuário Com Dados Válidos
+Deve Editar Usuário Com Dados Válidos e Validar Resposta
     Editar Usuário
 
-Deletar Usuário Existente
-    Deletar Usuário
+Deve Deletar Usuário Existente e Validar Resposta
+    Deletar Usuário Pelo ID em Arquivo
 
-Listar Usuários Existentes
+Deve Listar Usuários Existentes, Validar Resposta e Guardar Informações dos Usuários
     Listar Usuários
