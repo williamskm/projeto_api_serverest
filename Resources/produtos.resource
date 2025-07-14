@@ -24,6 +24,10 @@ Criar Body Produto
     RETURN    ${body}
 
 Cadastrar Produto
+    [Documentation]     Realiza o cadastro do produto, verifica se o cadastro foi realizado 
+    ...                 com sucesso e guarda o ID para uso em testes subsequentes.
+    [Tags]              produto    positivo
+
     ${body}=      Criar Body Produto     ${nome_produto}    ${preco}    ${descricao}    ${quantidade}
     ${header}=    Criar Header           ${TOKEN}
     ${response}=  Criar Response Post    /produtos    201    ${header}    ${body}
@@ -38,6 +42,10 @@ Cadastrar Produto
     
 
 Buscar Produto por ID
+    [Documentation]    Realiza a busca com ID válido, verifica se a busca foi 
+    ...                realizada com sucesso e guarda as informações obtidas do Produto
+    [Tags]             produto    positivo
+
     ${ID_PRODUTO}=    Pega INFO em TempFiles    id_produto.txt
     ${response}=      Criar Response Get    /produtos/${ID_PRODUTO}    200    ${header}
 
@@ -48,6 +56,10 @@ Buscar Produto por ID
 
 
 Editar Produto
+    [Documentation]    Altera informações de um produto através do ID e verifica se a alteração
+    ...                foi realizada com sucesso
+    [Tags]             produto    positivo
+
     ${ID_PRODUTO}=    Pega INFO em TempFiles    id_produto.txt
     
     ${body}=          Criar Body Produto    Logitech PRO MAX    1200    Mouse Gamer    110
@@ -57,6 +69,10 @@ Editar Produto
     Validar Resposta Completa Através da Mensagem    ${response}    200    Registro alterado com sucesso
 
 Deletar Produto
+    [Documentation]    Exclui um produto através do ID obtivo pelo arquivo .txt e verifica se a exclusão
+    ...                foi realizada com sucesso
+    [Tags]             produto    positivo
+
     ${ID_PRODUTO}=    Pega INFO em TempFiles   id_produto.txt
     
     ${header}=        Criar Header    ${TOKEN}
@@ -64,7 +80,11 @@ Deletar Produto
 
     Validar Resposta Completa Através da Mensagem    ${response}   200    Registro excluído com sucesso
 
-Listar Produtos   
+Listar Produtos  
+    [Documentation]    Realiza a busca de todos os produtos cadastrados, verifica se a busca foi 
+    ...                realizada com sucesso e guarda as informações obtidas dos produtos
+    [Tags]             produto    positivo 
+
     ${header}=       Criar Header
     ${response}=     Criar Response Get    /produtos    200   ${header}
 
@@ -74,6 +94,9 @@ Listar Produtos
     Create File     ${EXECDIR}/Json/produtos_cadastrados.json    ${json}
 
 Cadastrar Produto Sem Nome
+    [Documentation]    Tenta cadastrar produto sem nome, valida erro 400 e mensagem
+    [Tags]             produto    negativo
+
     ${body}=        Criar Body Produto    preco=${preco}    descricao=${descricao}    quantidade=${quantidade}
     ${header}=      Criar Header    ${TOKEN}
     ${response}=    Criar Response Post    /produtos    400    ${header}    ${body}
@@ -85,6 +108,9 @@ Cadastrar Produto Sem Nome
 
 
 Cadastrar Produto Sem Preço
+    [Documentation]    Tenta cadastrar produto sem preço, valida erro 400 e mensagem
+    [Tags]             produto    negativo
+
     ${body}=        Criar Body Produto    nome=${nome}    descricao=${descricao}    quantidade=${quantidade}
     ${header}=      Criar Header    ${TOKEN}
     ${response}=    Criar Response Post    /produtos    400    ${header}    ${body}
@@ -95,6 +121,9 @@ Cadastrar Produto Sem Preço
     ...    preco=preco deve ser um número
 
 Cadastrar Produto Sem Quantidade
+    [Documentation]    Tenta cadastrar produto sem preço, valida erro 400 e mensagem
+    [Tags]             produto    negativo
+
     ${body}=        Criar Body Produto    nome=${nome}    preco=${preco}    descricao=${descricao}
     ${header}=      Criar Header    ${TOKEN}
     ${response}=    Criar Response Post    /produtos    400    ${header}    ${body}
@@ -105,6 +134,8 @@ Cadastrar Produto Sem Quantidade
     ...    quantidade=quantidade deve ser um número
 
 Buscar Produto Com ID Inexistente
+    [Documentation]    Busca produto com ID inexistente, valida erro 400 e mensagem
+    [Tags]             produto    negativo
 
     ${ID_PRODUTO}=    Generate Random String    16    [LETTERS][NUMBERS]
     ${response}=      Criar Response Get    /produtos/${ID_PRODUTO}    400    ${header}
@@ -114,6 +145,8 @@ Buscar Produto Com ID Inexistente
     Validar Resposta Completa Através da Mensagem    ${response}   400   Produto não encontrado
 
 Buscar Produto Com ID Malformado
+    [Documentation]    Busca produto com ID malformado, valida erro 400 e mensagem
+    [Tags]             produto    negativo
     ${ID_PRODUTO}=    Generate Random String    18   [LETTERS][NUMBERS]
     ${response}=      Criar Response Get    /produtos/${ID_PRODUTO}    400    ${header}
 
@@ -124,6 +157,8 @@ Buscar Produto Com ID Malformado
 
 
 Editar Produto Sem Dados
+    [Documentation]    Edita produto sem dados, valida erro 400 e mensagens
+    [Tags]             produto    negativo
 
     Cadastrar Produto
     
@@ -142,6 +177,9 @@ Editar Produto Sem Dados
     Deletar Produto
 
 Deletar Produto Inexistente
+    [Documentation]    Tenta deletar produto inexistente, valida erro 200 e mensaem
+    [Tags]             produto    negativo
+
     ${ID_PRODUTO}=    Generate Random String    16    [LETTERS][NUMBERS]
     
     ${header}=        Criar Header    ${TOKEN}
