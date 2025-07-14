@@ -14,7 +14,7 @@ Library      json
 Cadastrar Usuário
     [Documentation]     Realiza o cadastro do usuário, verifica se o cadastro foi realizado 
     ...                 com sucesso e guarda o ID para uso em testes subsequentes.
-    [Tags]              positivo
+    [Tags]              usuario    positivo
 
     ${body}=        Criar Body    ${nome}    ${email}    ${senha}    ${admin}
     ${response}=    Criar Response POST    /usuarios    201    ${header}    ${body}
@@ -30,7 +30,7 @@ Cadastrar Usuário
 Logar Usuário
     [Documentation]    Realiza login com usuário válido, verifica se o loguin foi 
     ...                realizado com sucesso e guarda o token de autorização para uso em testes subsequentes.
-    [Tags]             positivo
+    [Tags]             usuario    positivo
     ${body}         Create Dictionary    email=${email}    password=${senha}
     ${response}=    Criar Response Post   /login    200    ${header}    ${body} 
 
@@ -45,7 +45,7 @@ Logar Usuário
 Buscar Usuário
     [Documentation]    Realiza a busca com ID válido, verifica se a busca foi 
     ...                realizada com sucesso e guarda as informações obtidas do Usuário
-    [Tags]             positivo
+    [Tags]             usuario    positivo
     ${ID_USUARIO}=    Pega INFO em TempFiles    id_usuario.txt
 
     ${response}=      Criar Response Get   /usuarios/${ID_USUARIO}    200    ${header}
@@ -58,7 +58,7 @@ Buscar Usuário
 Editar Usuário
     [Documentation]    Altera informações de um usuário através do ID e verifica se a alteração
     ...                foi realizada com sucesso
-    [Tags]             positivo
+    [Tags]             usuario    positivo
 
     ${ID_USUARIO}=     Pega INFO em TempFiles     id_usuario.txt
 
@@ -70,7 +70,7 @@ Editar Usuário
 Deletar Usuário Pelo ID em Arquivo
     [Documentation]    Exclui um usuário através do ID obtivo pelo arquivo .txt e verifica se a exclusão
     ...                foi realizada com sucesso
-    [Tags]             positivo
+    [Tags]             usuario    positivo
 
     ${ID_USUARIO}=     Pega INFO em TempFiles    id_usuario.txt
     ${response}=       Criar Response DELETE  /usuarios/${ID_USUARIO}  200    ${header}
@@ -80,7 +80,7 @@ Deletar Usuário Pelo ID em Arquivo
 Deletar Usuário Pelo ID Informado
     [Documentation]    Exclui um usuário através do ID informado e verifica se a exclusão
     ...                foi realizada com sucesso
-    [Tags]             positivo
+    [Tags]             usuario    positivo
     [Arguments]        ${ID_USUARIO}
 
     ${response}=       Criar Response DELETE  /usuarios/${ID_USUARIO}  200    ${header}
@@ -90,7 +90,7 @@ Deletar Usuário Pelo ID Informado
 Listar Usuários
     [Documentation]    Realiza a busca de todos os usuários cadastrados, verifica se a busca foi 
     ...                realizada com sucesso e guarda as informações obtidas dos Usuários
-    [Tags]             positivo
+    [Tags]             usuario    positivo
 
     ${response}=       Criar Response Get  /usuarios   200    ${header}
      
@@ -100,8 +100,8 @@ Listar Usuários
     Create File     ${EXECDIR}/Json/usuarios_cadastrados.json    ${json} 
 
 Cadastro Com E-mail Já Existente
-    [Documentation]    Tenta cadastrar usuário com e-mail já usado e valida erro 400 e mensagem
-    [Tags]             negativo
+    [Documentation]    Tenta cadastrar usuário com e-mail já usado, valida erro 400 e mensagem
+    [Tags]             usuario    negativo
 
     Cadastrar Usuário
 
@@ -113,8 +113,8 @@ Cadastro Com E-mail Já Existente
     Deletar Usuário Pelo ID em Arquivo
 
 Cadastro Com Senha Vazia
-    [Documentation]    Tenta cadastrar usuário com senha vazia e valida erro 400 e mensagem
-    [Tags]             negativo
+    [Documentation]    Tenta cadastrar usuário com senha vazia, valida erro 400 e mensagem
+    [Tags]             usuario    negativo
     
     ${body}=        Criar Body    ${nome}    ${email}    administrador=${admin}
     ${response}=    Criar Response Post    /usuarios    400    ${header}    ${body}
@@ -126,8 +126,8 @@ Cadastro Com Senha Vazia
 
 
 Cadastro Com Nome Vazio
-    [Documentation]    Tenta cadastrar usuário com nome vazio e valida erro 400 e mensagem
-    [Tags]             negativo
+    [Documentation]    Tenta cadastrar usuário com nome vazio, valida erro 400 e mensagem
+    [Tags]             usuario    negativo
 
     ${body}=        Criar Body    email=${email}   password=${senha}    administrador=${admin}
     ${response}=    Criar Response Post    /usuarios    400    ${header}    ${body}
@@ -139,8 +139,8 @@ Cadastro Com Nome Vazio
     
 
 Cadastro Com E-mail Inválido
-    [Documentation]    Tenta cadastrar usuário com e-mail inválido e valida erro 400 e mensagem
-    [Tags]             negativo
+    [Documentation]    Tenta cadastrar usuário com e-mail inválido, valida erro 400 e mensagem
+    [Tags]             usuario    negativo
 
     ${body}=        Criar Body    ${nome}    email=william$$teste.com.br   password=${senha}   administrador=${admin} 
     ${response}=    Criar Response Post    /usuarios    400    ${header}    ${body}
@@ -151,8 +151,8 @@ Cadastro Com E-mail Inválido
     ...    email=email deve ser um email válido
 
 Cadastro Sem Campo Email
-    [Documentation]    Tenta cadastrar usuário sem campo email e valida erro 400 e mensagem
-    [Tags]             negativo
+    [Documentation]    Tenta cadastrar usuário sem campo email, valida erro 400 e mensagem
+    [Tags]             usuario    negativo
 
     ${body}=        Criar Body    nome=${nome}    password=${senha}   administrador=${admin}
     ${response}=    Criar Response Post    /usuarios    400    ${header}    ${body}
@@ -163,8 +163,8 @@ Cadastro Sem Campo Email
     ...    email=email não pode ficar em branco
 
 Logar Com Senha Incorreta
-    [Documentation]    Tenta login com senha incorreta e valida erro 401 e mensagem
-    [Tags]             negativo
+    [Documentation]    Tenta login com senha incorreta, valida erro 401 e mensagem
+    [Tags]             usuario    negativo
 
     ${body}=        Create Dictionary    email=${email}    password=senhaerrada123
     ${response}=    Criar Response Post   /login    401    ${header}    ${body}   
@@ -172,8 +172,8 @@ Logar Com Senha Incorreta
     Validar Resposta Completa Através da Mensagem    ${response}    401    Email e/ou senha inválidos
     
 Logar Com Campos Vazios
-    [Documentation]    Tenta login com campos vazios e valida erro 400 e mensagens
-    [Tags]             negativo
+    [Documentation]    Tenta login com campos vazios, valida erro 400 e mensagens
+    [Tags]             usuario    negativo
 
     ${body}         Create Dictionary    email=   password=
     ${response}=    Criar Response Post   /login    400    ${header}    ${body}   
@@ -186,8 +186,8 @@ Logar Com Campos Vazios
     ...    password=password não pode ficar em branco
 
 Logar Sem Body
-    [Documentation]    Tenta login sem corpo e valida erro 400 e mensagens
-    [Tags]             negativo
+    [Documentation]    Tenta login sem corpo, valida erro 400 e mensagens
+    [Tags]             usuario    negativo
 
     ${body}=        Set Variable      ${None}
     ${response}=    Criar Response Post   /login    400    ${header}    ${body}   
@@ -200,8 +200,8 @@ Logar Sem Body
     ...    password=password é obrigatório
 
 Logar Com Tipo Incorreto
-    [Documentation]    Tenta login com tipo incorreto no email e valida erro 400 e mensagem
-    [Tags]             negativo
+    [Documentation]    Tenta login com tipo incorreto no email, valida erro 400 e mensagem
+    [Tags]             usuario    negativo
 
     ${body}         Create Dictionary    email=124435345   password=${senha}
     ${response}=    Criar Response Post   /login    400    ${header}    ${body} 
@@ -212,8 +212,8 @@ Logar Com Tipo Incorreto
     ...    email=email deve ser um email válido
 
 Buscar Usuário Com ID Inexistente
-    [Documentation]    Busca usuário com ID inexistente e valida erro 400 e mensagem
-    [Tags]             negativo
+    [Documentation]    Busca usuário com ID inexistente, valida erro 400 e mensagem
+    [Tags]             usuario    negativo
 
     ${id_aleatorio}=    Generate Random String    16    [LETTERS][NUMBERS]
  
@@ -222,8 +222,8 @@ Buscar Usuário Com ID Inexistente
     Validar Resposta Completa Através da Mensagem    ${response}    400    Usuário não encontrado
 
 Buscar Usuário Com ID Malformado
-    [Documentation]    Busca usuário com ID malformado e valida erro 400 e mensagem
-    [Tags]             negativo
+    [Documentation]    Busca usuário com ID malformado, valida erro 400 e mensagem
+    [Tags]             usuario    negativo
 
     ${id_aleatorio_malformado}=    Generate Random String    18    [LETTERS][NUMBERS]
 
@@ -236,8 +236,8 @@ Buscar Usuário Com ID Malformado
 
 
 Editar Com Email Já Utilizado
-    [Documentation]    Edita usuário com email já utilizado e valida erro 400 e mensagem
-    [Tags]             negativo
+    [Documentation]    Cadastra usuario, cadastra o segundo usúario, tenta editar usuario 2 com email já cadastrado, valida erro 400 e mensagem
+    [Tags]             usuario    negativo
     
     #Cadastrando Primeiro Usuário
     Cadastrar Usuário
@@ -260,8 +260,8 @@ Editar Com Email Já Utilizado
     Deletar Usuário Pelo ID Informado    ${id_2}
 
 Editar Sem Dados
-    [Documentation]    Edita usuário sem dados e valida erro 400 e mensagens
-    [Tags]             negativo
+    [Documentation]    Edita usuário sem dados, valida erro 400 e mensagens
+    [Tags]             usuario    negativo
 
     Cadastrar Usuário
 
@@ -280,8 +280,8 @@ Editar Sem Dados
     Deletar Usuário Pelo ID em Arquivo
     
 Editar Com Campos Inválidos
-    [Documentation]    Edita usuário com campos inválidos e valida erro 400 e mensagens
-    [Tags]             negativo
+    [Documentation]    Edita usuário com campos inválidos, valida erro 400 e mensagens
+    [Tags]             usuario    negativo
     Cadastrar Usuário
 
     ${body}=        Criar Body    email=124124124124    administrador=teste 
@@ -299,8 +299,8 @@ Editar Com Campos Inválidos
     Deletar Usuário Pelo ID em Arquivo
 
 Deletar Usuário Inexistente
-    [Documentation]    Tenta deletar usuário inexistente e valida resposta 200 com mensagem de nenhum registro excluído
-    [Tags]             negativo
+    [Documentation]    Tenta deletar usuário inexistente, valida erro 200 e mensagem
+    [Tags]             usuario    negativo
 
     ${id_aleatorio}=    Generate Random String    16    [LETTERS][NUMBERS]
 
